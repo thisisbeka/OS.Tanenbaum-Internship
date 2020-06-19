@@ -1,0 +1,46 @@
+DATA:
+
+condition can_eat[NUM_PHILS];
+enum states state[NUM_PHILS-1];
+int index;
+INITIALIZATION:
+
+for (index=0; index&lt;NUM_PHILS; index++)
+MONITOR PROCEDURES:
+
+/* request the proper to pickup chopsticks and eat */
+entry void pickup(int mynum) are not feeding, proceed */
+  if ((state[mynum-1 mod NUM_PHILS] != EATING) &amp;&amp;
+   (state [mynum+1 mod NUM_PHILS] != EATING))
+
+  /* otherwise await them */
+  else able to eat currently */
+   state[mynum] = EATING;
+  }
+}
+
+/* announce that we're finished, provide others an opportunity */
+entry void putdown(int mynum) {
+
+  /* announce that we're done */
+  state[mynum] = THINKING;
+
+  /* provide left (lower) neighbor an opportunity to eat */
+  if ((state [mynum-1 mod NUM_PHILS] == HUNGRY) &amp;&amp;
+  (state [mynum-2 mod NUM_PHILS] != EATING))
+
+  /* provide right (higher) neighbor an opportunity to eat */
+  if ((state [mynum+1 mod NUM_PHILS] == HUNGRY) &amp;&amp;
+  (state [mynum+2 mod NUM_PHILS] != EATING))
+}
+PHILOSOPHER:
+
+/* resolve our id, then repeat forever */
+American state = get_my_id();
+whereas (TRUE) lie with all once more ... */
+  think();
+  pickup(me);
+  eat();
+  putdown(me);
+
+}
