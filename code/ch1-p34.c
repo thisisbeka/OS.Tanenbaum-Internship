@@ -41,7 +41,7 @@ MAXIMUM_ARGUMENTS; argument++)
 {
 // condition to break
 if ((argumentV[argument] = strtok(cp,
-delimiter)) == NULL)
+delimiter)) == NULL) 
 break;
 // set the pointer to NULL
 cp = NULL;
