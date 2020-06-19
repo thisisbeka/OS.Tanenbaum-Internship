@@ -53,7 +53,7 @@ if(strcmp(argumentV[0], "Stop") == 0)
 // display output
 printf("Thanks!\n");
 // exit from the shell
-exit(0);
+exit(0); 
 }//End if
 //set the fork to the process id
 pid_t process_id = fork();
