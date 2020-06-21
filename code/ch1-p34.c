@@ -6,7 +6,7 @@
 #include
 #define MAXIMUM_ARGUMENTS10
 #define MAXIMUM_LENGTH 100
-Define the function prototype
+//Define the function prototype
 //Function pototype
 void child(int argument, char *argumentV[MAXIMUM_ARGUMENTS]);
 //Main function
@@ -17,12 +17,12 @@ int argument, n = 0, status;
 char input_line[MAXIMUM_LENGTH],
 *argumentV[MAXIMUM_ARGUMENTS], *cp;
 const char *delimiter = " \t\n";
-The loop is executed till true is set. The input is taken from the user and stop when key
-combination Ctrl+d is pressed by the user.
+//The loop is executed till true is set. The input is taken from the user and stop when key
+//combination Ctrl+d is pressed by the user.
 //Repeat the loop until the condition is true
 while (1)
 {
-Prompting the user to enter an input values from the keyboard
+//Prompting the user to enter an input values from the keyboard
 //Read the input line
 printf("sh-> ");
 //condition to read the line
@@ -46,7 +46,7 @@ break;
 // set the pointer to NULL
 cp = NULL;
 }//End for loop
-Condition to stop shell when specific word is entered by the user
+//Condition to stop shell when specific word is entered by the user
 //Check the condition
 if(strcmp(argumentV[0], "Stop") == 0)
 {
@@ -77,7 +77,7 @@ wait(&status);
 }//End else
 }//End while
 }//End main
-Define the function for child process
+//Define the function for child process
 //Function defintion
 void child(int argument, char *argumentV[MAXIMUM_ARGUMENTS])
 {
