@@ -1,0 +1,35 @@
+Suppose that a university wants to show off how politically correct it is by applying the U.S.
+Supreme Court’s “Separate but equal is inherently unequal” doctrine to gender as well as race,
+ending its long-standing practice of gender-segregated bathrooms on campus However, as a
+concession to tradition, it decrees that when a woman is in a bathroom, other women may enter,
+but no men, and vice versa. a sign with a sliding marker on the door of each bathroom indicates
+which of three possible slates it is currently in:
+• Empty
+• Women present
+• Men present
+In some programming language you like, write the following procedures:
+Woman_wants_to_enter,man_wants_to_enter, woman_leaves, man_leaves. You may use
+whatever counters and synchronization techniques you like.
+Counter and Synchronization Technique
+Consider that the value of MUTEX is equivalent to 1, let the value of ManM is equals to 1, WomanMX = 1, 
+ManC leaves is equal to 0, woman leaves WomanC = 0, thus the state is 
+ManC = ManC+1
+up(ManM)
+man is bathing
+
+In the condition where woman_wants_to_enter:
+dwn(WomanM)
+If(WomanC = 0) dwn(MUTEX)
+WomanC = WomanC+1
+up(WomanMX)
+woman is bathing
+
+In the condition where Man_leaves:
+dwn(ManM)
+ManC = ManC-1
+If(ManC = 0) up(MUTEX)
+up(ManM)
+
+WomanC = WomanC-1
+If(WomanC = 0) up(MUTEX)
+up(WomanMX)
