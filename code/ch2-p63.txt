@@ -1,0 +1,132 @@
+Program Plan:
+Write two sets of program such that they find prime numbers from a list
+• The first program should not contain threads logic. In this case, it’s a single file called Prime.
+• The second set of program should use multiple threads. Here, two java files are used:
+o ThreadPrime is the actual class which checks for prime numbers.
+o ThreadPrimeFinder uses ThreadPrime class and its object to print prime numbers.
+Remember that the rest of logic in the two sets of programs needs to remains the same.
+1. Prime.java
+• Create an integer array for storing prime numbers called primes.
+• Initialize other variables.
+o Calculate the next even number.
+o Check if it’s a prime number by using function prime.
+• If it is a prime number, put it in the primes array.
+• In prime function
+o Check if the given number is completely divisible by any number between 3 and itself.
+• Return false if the given number is completely divisible by any number.
+• If the whole range is finished then the number is prime and return true.
+• Again in the for loop, skip even numbers, as an odd number as it is cannot be divisible by an
+even number.
+2. ThreadPrimeFinder.java
+• Create an array of type ThreadPrime with size as number of threads required.
+• Get the current system time.
+• Start each thread using a for loop.
+• Calculate and print the total thread count.
+• Print the elements of array of prime numbers.
+• Calculate the run time of the program by using the difference of current time and start time.
+3. ThreadPrime.java
+• In run function 
+o Create an integer array for storing prime numbers called primes.
+o Initialize static and other variables.
+o Get the next number by calling function getNextNumber.
+o Check if it’s a prime number by using function prime.
+• If it is a prime number, put it in the primes array.
+• In getNextNumber function
+o Get the next number to check for prime by increment it by 2. This is because even numbers
+cannot be prime.
+o Note that this function is synchronized, because it ensures that each thread picks a new
+number.
+• In prime function
+• The logic of finding prime numbers remain the same.
+
+
+Program:
+1. Prime.java
+/*Program to find prime numbers from a list w/o threads*/
+public class Prime {
+public static void main(String[] args) {
+long stime, etime, runtime;
+int count =0;
+stime = System.currentTimeMillis();
+final int max =100;
+int nextNumber=1;
+int[] primes = new int[max];
+primes[0] =2;
+Calculate the next even number and if it’s a prime number put it in the array
+while(nextNumber<=max) {
+if(prime(nextNumber))
+primes[count++] =nextNumber;
+nextNumber+=2;
+}
+Display the output to user, including the prime number list.
+System.out.println("Total prime count: "+count);
+for (int i=0;i
+System.out.println(""+i+": "+primes[i]);
+etime = System.currentTimeMillis();
+runtime = etime - stime;
+System.out.println("The run time is " +runtime +" milliseconds");
+}
+Test if the given number is prime or not.
+public static boolean prime(int n) {
+int i;
+for(i=3; i*i<=n; i+=2){ // even numbers cannot be prime
+if(n%i==0)
+return false;}
+return true; }}
+
+2. ThreadPrimeFinder.java
+
+/*Program to find prime numbers from a list using threads*/
+public class ThreadPrimeFinder {
+static final int numThreads = 2;
+public static void main(String[] args) throws InterruptedException{
+int thCount;
+int total = 0;
+Create and start threads. Each threads checks if a number is prime or not.
+ThreadPrime[] pthread= new ThreadPrime[numThreads];
+long stime, etime, runtime;
+stime = System.currentTimeMillis();
+for(thCount =0; thCount<numThreads; thCount++){
+pthread[thCount] = new ThreadPrime();
+pthread[thCount].start();
+}
+for(thCount =0; thCount<numThreads; thCount++)
+pthread[thCount].join();
+Display the output to user, including the prime number list.
+total = ThreadPrime.count;
+System.out.println("Total prime count: "+total);
+for (int i=0;i
+System.out.println(""+i+": "+ThreadPrime.primes[i]);
+etime = System.currentTimeMillis();
+runtime = etime - stime;
+System.out.println("The run time is " +runtime +" milliseconds");
+}
+}
+3. ThreadPrime.java
+/*Class to find prime numbers using threads*/
+public class ThreadPrime extends Thread{
+static int nextNumber =1;
+static final int max =100;
+public static int count =0;
+public static int[] primes = new int[max/2];
+Get the next number and if it’s a prime number put it in the array.
+public void run() {
+int myNumber;
+primes[0] =2;
+while((myNumber=getNextNumber())<=max) {
+if(prime(myNumber))
+primes[count++] =myNumber;
+
+int n =nextNumber;
+nextNumber +=2; //even numbers cannot be prime//
+return n;
+}
+Test if the given number is prime or not.
+public boolean prime(int n) {
+int i;
+for(i=3; i*i<=n; i+=2) // even numbers cannot be prime
+if(n%i==0)
+return false;
+return true;
+}
+}
