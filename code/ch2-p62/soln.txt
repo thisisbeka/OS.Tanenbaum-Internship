@@ -1,0 +1,28 @@
+The Fatal race condition occurs when two or more threads are accessing the common data or a
+shared data. The threads try to change the data at the same time, because as per the thread
+scheduling algorithm the threads can swap at any time.
+The problem may occur, if Thread 1 is checking the value A and some activity is doing with A and
+the thread 2 is doing the same, then the fatal errors will occur.
+
+Program plan: 
+the following process helps to create the producer-consumer problem using threads in java
+
+Create a class named ProducerVsConsumerRace.
+• Create a variable named BUFFER_SIZE to store the size of the common buffer.
+• Create a variable named ITEM_NUM to store the item number.
+• Create an object for the Producer Thread Class.
+• Create an object for the Consumer Thread Class.
+• Create a main() method
+• Run the two threads.
+• Create a static class named Producer.
+o Create a run() method.
+o Create a while-loop to repeat the process continuously.
+o Create an if-statement to check the common buffer storage is full or not. If the common buffer
+storage is full sleep the thread, else call the method insert() of the class SharedData to insert an
+item for every one minute.
+• Create a static class named Consumer.
+o Create a run() method.
+o Create a while-loop to repeat the process continuously.
+o Create an if-statement to check the data in the common buffer is empty or not. If not empty call
+the method remove() of the class SharedData to remove an item from the buffer for every one
+minutes.
