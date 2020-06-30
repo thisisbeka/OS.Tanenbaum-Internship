@@ -1,0 +1,46 @@
+Program Plan:
+• Vary the buffer size from 64 bytes to 4 KB. For each size call function PerformTest.
+• Ensure that the size of input file is in the range of 2GB.
+• In function PerformTest
+o Use timing measurement routines to measure the time taken for different buffer sizes.
+o Read data of given size of buffer from input file.
+o Write it to output file.
+o Print out the time taken to copy the file for that buffer size.
+
+Program:
+/*Program to measure the impact of application-level buffer sizes on read time*/
+import java.io.*;
+public class BufferSize
+{
+public static void main(String[] args)
+{
+//Vary the buffer size from 64 bytes to 4 KB
+int i=64;
+while(i<4097){
+PerformTest(i);
+i=2*i;
+}
+}
+public static void PerformTest(int bufferSize)
+{
+long stime, etime, runtime;
+stime = System.currentTimeMillis();
+File outFile = new File("copy3.mp4");//size is 2GB
+File inpFile= new File("data3.mp4");
+try(OutputStream out =new FileOutputStream(outFile)){
+InputStream inp =new FileInputStream(inpFile);
+byte[] buffer = new byte[bufferSize];
+int length;
+while((length = inp.read(buffer)) > 0) {
+out.write(buffer, 0, length);
+}
+inp.close();
+}
+catch(Exception FileNotFoundException){
+System.out.println("File not found");
+}
+etime = System.currentTimeMillis();
+runtime = etime - stime;
+System.out.println("The run time for bufferSize="+bufferSize+"; is " +runtime +" milliseconds");
+}
+}
