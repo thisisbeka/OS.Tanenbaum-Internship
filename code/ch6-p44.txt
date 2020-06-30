@@ -1,0 +1,110 @@
+Program Plan:
+• Create a People Class with name and lock object.
+• Create its constructor, and other getName function.
+• In the main function;
+o Create two objects of People class and
+o Create to threads to start the bowing process with a bower and a bowee.
+• In the run method of BowLoop class
+o Make the people follow courtesy 5 times, just to demonstrate that a deadlock has been
+avoided. Otherwise run it only once.
+o Let the thread sleep between two loops.
+• In bow method
+• If both parties have acquired lock together, it’s a deadlock. Avoid bowing.
+o Unlock the two objects.
+• In function impendingBow;
+o Set locks to both person objects as false.
+o Call function tryLock()to check if the thread succeeded in obtaining the lock or already had it. In
+any case, acquire locks for both person objects.
+o Try to obtain both persons locks, in case at least one of them couldn't be obtained.
+o Releases the lock one that was obtained, if any.
+o Return true if both locks were successfully obtained, and return false otherwise.
+• This program takes advantage of the fact that only one thread can own a Lock object at a time.
+They have the ability to back out of an attempt to acquire a lock, which can be used to avoid a
+deadlock.
+Program:
+/* A courtesy Bow program that locks objects to avoid deadlocks.*/
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.Random;
+public class SafeBow {
+Class to store Person’s name and if its object has been locked or not.
+static class People {
+//Person name and a lock is also placed
+private final String name;
+private final Lock lock = new ReentrantLock();
+//constructor accepting name for Person instance.
+public People(String name)
+//Get this instance's name.
+public String getName(){
+return this.name;
+}
+The tryLock method backs out of an attempt to acquire a lock to avoid deadlock.
+public boolean impendingBow(People bower){
+Boolean myLock = false;
+Boolean yourLock = false;
+//acquire locks for both people before bowing
+try{
+myLock = lock.tryLock();
+yourLock = bower.lock.tryLock();
+}
+finally{
+Try to obtain both persons locks, in case at least one of them couldn't be obtained.
+if(!(myLock && yourLock)){
+//Release the lock that was obtained.
+if(myLock)
+lock.unlock();
+if(yourLock)
+bower.lock.unlock();
+}
+}
+return myLock && yourLock;
+}
+If both people bow at the same time, they will stay bowed forever. Avoid such deadlocks.
+public void bow(People bower){
+//check if both are not locked
+if(impendingBow(bower)){
+// check when someone else has bowed to you.
+bower.bowBack(this);
+}
+finally{
+lock.unlock();
+bower.lock.unlock();
+}
+}
+else{//deadlock as both have acquired the lock
+System.out.format("%s: %s started to bow to me, but I avoided a deadlock.%n",
+this.name, bower.getName());
+}
+}
+//Bow back to someone who bowed to me
+public void bowBack(People bower){
+System.out.format("%s: %s has bowed back to me!%n",this.name, bower.getName());
+}
+}
+static class BowLoop implements Runnable{
+private People bower;
+private People bowee;
+public BowLoop(People bower, People bowee){
+this.bower = bower;
+this.bowee = bowee;
+}
+Run the loop 5 times, to demonstrate the deadlock has been avoided.
+for(int i=0;i<5;i++){
+try{
+//wait between two courtesy bows
+Thread.sleep(random.nextInt(10));
+} //catch block for any exceptions
+catch(InterruptedException e){}
+bowee.bow(bower);
+}
+}
+}
+The courtesy will be conducted a total of 10 times.
+public static void main(String[] args){
+final People first = new People("First");
+final People second = new People("Second");
+//start courtesy
+new Thread(new BowLoop(first, second)).start();
+new Thread(new BowLoop(second, first)).start();
+}
+}
