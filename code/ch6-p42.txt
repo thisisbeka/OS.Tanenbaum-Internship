@@ -1,0 +1,175 @@
+Program Deadlock Detection
+Program plan:
+• Include header files and declare required namespaces.
+• Initialize the main() function and declare required variable names.
+• Random generate between 0 to 5, then 5 to 10 and then 10 t0 15.
+• Implement for outer to generate n random values.
+• Check the condition for resource allocation.
+• Display output.
+
+// This Program takes the input of number of available // resources, maximum available
+resources and number of // processes and finds the processes involved in deadlock // detection.
+// ********************************************************
+// include all header files
+#include
+//Define Header Files
+#define FALSE 0
+#define TRUE 1
+//Variable Declaration
+int RESALLOC[5][5], RESREQ[5][5], TOTAL_NUMRES[5], processValue, resourceValue,
+NUM_OF_RES=5, NUM_OF_PRO=5;
+int TEMP[5]={0}, AVAILABLE[5], CENTER=0, FINAL[5]={FALSE}, FLAG;
+A process is in deadlock position if it is waiting for a resource which is never going to be released
+by other process using the same process. Include all header files and define main function.
+Define function to generate random variables.
+//Define Main Function
+int main(int argc, char **argv, char **envp)
+{
+//Function to generate random variables
+ srand(time(NULL));
+
+Create a random allocation matrix with a value between the range of 0 to 5 for every resource
+and processes. Print the allocation matrix.
+
+//Print allocation Matrix
+ printf("Allocation matrix:\n");
+Implement for loop and calculate the values for every process and resource and print the newline
+character.
+{
+//Implement nested for loop
+ for(resourceValue=0;resourceValue<5;resourceValue++ )
+ {
+//calculate the values
+ RESALLOC[processValue][resourceValue]=rand()%4;
+//Print the calculated values
+ printf("\t%d",RESALLOC[processValue][resourceVa lue]);
+ }
+//print blank line
+ printf("\n");
+ }
+Create a random request matrix with a value between 0 and 5 for each resource and process.
+
+//Print the request matrix
+ printf("\nRequest matrix:\n");
+ //Implement for loop
+ for(processValue=0;processValue<5;processValue++)
+ {
+//Implement nested for loop
+ for(resourceValue=0;resourceValue<5;resourceValue++ )
+ {
+//calculate the values for matrix
+ RESREQ[processValue][resourceValue]=rand()%4;
+//Print the values calculated
+ printf("\t%d",RESREQ[processValue][resourceValu e]);
+ }
+//Print newline character
+
+Create a randomly generated total resource vector with a value ranging from 10 to 15 for every
+resource and process.
+ //print resources
+ printf("\nResources:\n");
+ //Implement for loop
+ for(processValue=0;processValue<5;processValue++)
+ {
+//Calculate the values for resources
+ TOTAL_NUMRES[processValue]=rand()%3+NUM_OF_RES+NUM_ OF_PRO;
+//Print the values of total resources
+ printf("\t%d",TOTAL_NUMRES[processValue]);
+ }
+
+Display the total number of resources in use and print Total claimed per resource represented by
+TEMP.
+ //Implement for loop
+ for(processValue=0;processValue<5;processValue++)
+ {
+//Implement nested for loop
+ for(resourceValue=0;resourceValue<5;resourceValue++ )
+ {
+ }
+Display the total number of available resources, implement for loop, and print available
+resources.
+ //Display the total number of available resources
+ printf("\n\nAvailable:\n");
+ //Implement for loop
+ for(processValue=0;processValue<5;processValue++)
+ {
+//Assign the values
+AVAILABLE[processValue]=TOTAL_NUMRES[processValue]- TEMP[processValue];
+//Print available resources
+ printf("\t%d",AVAILABLE[processValue]);
+ }
+Implement while loop, implement for loop, assign values, Check the condition, check the
+condition of available resources and increase the counter by one.
+ //Implement while loop
+ while(TRUE)
+ {
+//Implement for loop
+ for(processValue=0;processValue<5;processValue++)
+ {
+//Assign values
+ CENTER=0;
+//Check the condition
+ if(FINAL[processValue] == FALSE)
+for(resourceValue=0;resourceValue<5;resourc eValue++)
+ {
+ //Check the condition of available resources
+ if(RESREQ[processValue][resourceValue]<=AV AILABLE[r esourceValue])
+ {
+ //Increase the counter by one
+ CENTER++;
+ }
+ }
+Assign false to flag, check the condition, set the values, print the finished process otherwise set
+flag to true.
+//Assign false to flag
+ FLAG = FALSE;
+
+ //Check the condition
+ if(CENTER == NUM_OF_RES)
+ {
+//Implement for loop
+ for(resourceValue=0;resourceValue<5;resour ceValue++ )
+ {
+ //Set the values
+AVAILABLE[resourceValue]+=RESALLOC[processValue][resourceValue];
+ }
+//Assign values
+ FINAL[processValue]=TRUE;
+ }
+//Otherwise set flag to true
+ else
+ FLAG = TRUE;
+ }
+ }
+//Assign CENTER to zero
+ CENTER=0;
+//Implement for loop
+ for(processValue=0;processValue<5;processValue++)
+ {
+//Check the condition
+ if(FINAL[processValue] == TRUE)
+ {
+//Increment counter by one
+ CENTER++;
+ }
+ }
+//Check the condition
+ if(CENTER==5)
+ {
+//Terminate the function execution
+ break;
+ }
+ }
+Implement for loop, check the condition, print the process responsible for deadlock detection and
+end the function.
+ //Implement for loop
+ for(processValue=0;processValue<5;processValue++)
+ if(FINAL[processValue] == FALSE)
+ {
+//Print the process responsible for deadlock detection
+printf("\n Deadlock detected. Responsible process number is: %d\n",processValue+1);
+//End the function
+ return;
+ }
+ }
+}
