@@ -1,0 +1,188 @@
+Program plan:
+• Include all required header files.
+• Define a class Code_Banker, and define functions inside this for specific job.
+• Define the class’s member functions processAllocated, and max_required.
+• Define the main() function.
+• Display the value of safe sequence.
+
+
+
+Program:
+// ********************************************************
+// This Program takes the input of number of available // resources, maximum available
+resources and number of // processes then decides whether resource allocation // technique is
+safe or not.
+// ********************************************************
+// include all header files
+#include
+using namespace std;
+Banker’s algorithm is a resource allocation technique that tests the safe sequence of resources
+allocated to be processes. It checks for the maximum number of resources available per process
+and then checks for the condition. If the condition meets all the specified requirements then the
+resource allocation is in safe sequence.
+//This function tells whether a given sequence is safe or not
+class Code_Banker
+{
+//Declare all variables
+int all_processes;
+int remaining_processes;
+int One_avail,Two_avail,Three_avail;
+int One,Two,Three;
+//Define another class for processes
+class NumOfProcess
+{
+private:
+int processAllocated[3];
+int max_required[3];
+public:
+Define the class named as Code_Banker and then define its member functions. Then define a
+class for processes as Process and define its member function as processAllocated and
+max_required. Define its constructor to re initialize the member functions.
+//Define
+NumOfProcess()
+{
+//Define the processe to be allocated
+processAllocated[0] = processAllocated[1] = processAllocated[2] = max_required[0] =
+max_required[1] = max_required[2] = 0;
+//Enter the type of resources
+cout<<"Enter the allocated resources of types One,Two and Three"<
+//Input the values
+ cin>>processAllocated[0]>>processAlloca ted[1]>>processAllocated[2];
+Define the processes to be allocated, enter the type of resources, enter the maximum number of
+resources for every process and input the variables.
+//Enter the maximum number of resources for every process
+cout<<"Enter the maximum number of resources required for every types of
+ One,Two and Three"<
+//Input the variables
+ cin>>max_required[0]>>max_required[1]>> max_required[2];
+}
+Give the function definition for Allocated and Required number of resources and define their
+member functions.
+//Function Definition
+int Allocated(int temp)
+{
+return processAllocated[temp];
+}
+//Function Definition
+ int Required(int temp)
+{ return max_required[temp] - processAllocaed[temp];
+}
+Give a function definition for Max number of resources available in the system and declare its
+member functions.
+//Function Definition
+int Max(int temp)
+{
+return max_required[temp];
+}
+};
+Declare variables, give function definition, initialize all the processes and resources by zero,
+assign the process and sequence to NULL and print the available resources.
+//Variable Declaration
+NumOfProcess *process;
+int *sequence;
+public:
+//Function Definition
+Code_Banker ()
+{
+//Initialize all the processes and resources by zero
+One_avail = Two_avail = Three_avail = 0 ;
+One = Two = Three = 0 ;
+//Assign the process to NULL
+process = NULL;
+//Assign the sequence to NULL
+sequence = NULL;
+//Assign the Values
+all_processes = remaining_processes = 0;
+int one,two,three;
+one = two = three = 0;
+Print the available resources, prompt the user to enter total number of resources, take the input,
+assign the values and enter the processes in sequence. Implement for loop to check the
+condition.
+cout <<"Available resources of type One, Two and Three"<
+cin>>One_avail>>Two_avail>>Three_avail;
+//Prompt the user to enter total number of resources
+cout<<"Enter the total number of processes"<
+//Take the input
+cin>>all_processes;
+//Assign the values
+remaining_processes = all_processes;
+sequence = new int[all_processes];
+//Enter the required information
+cout<<"Please enter the required information of individual processes"<
+//Assign the values
+process = new NumOfProcess[all_processes];
+//Enter the processes in sequence
+cout<<"Enter the sequence(0,1,2 ... so on[in this format])"<
+//Implement for loop
+for(int temp1 = 0 ; temp1 < all_processes ; ++temp1)
+{
+//Input the sequnces
+cin>>sequence[temp1];
+one += process[temp1].Allocated(0);
+two += process[temp1].Allocated(1);
+three += process[temp1].Allocated(2);
+}
+Calculate total number of resources of every type, Implement for loop, check feasibility of every
+process, check if number of requested resources is less than or equal to maximum available
+resources and then check if i'th process can be executed safely.
+//Calculate total number of resources of every type
+One = One_avail + one;
+Two = Two_avail + two;
+Three = Three_avail + three;
+bool safe = true;
+for(int temp1 = 0 ; temp1 < all_processes ; ++temp1)
+//Check feasibility of every process
+{
+//Check if number of requested resources is less than or equal to maximum available resources
+if( process[sequence[temp1]].Required(0) <= One_avail &&
+process[sequence[temp1]].Required(1) <= Two_avail && process[sequence[temp1]].Required(2)
+<= Three_avail )
+{
+//Check if i'th process can be executed safely
+One_avail += process[sequence[temp1]].Allocated(0);
+Two_avail += process[sequence[temp1]].Allocated(1);
+Three_avail += process[sequence[temp1]].Allocated(2);
+}
+If the condition is not satisfied, assign safe to false, print that unsafe condition found after temp1
+process.
+//Otherwise
+else
+{
+//Assign safe to false
+safe = false;
+//Print that unsafe condition found after temp1 process
+cout<<"Unsafe condition found after "<
+//End of function
+return;
+}
+}
+//If safe condition is found
+if(safe == true)
+{
+//Print that safe sequence is found
+cout<<"Sequence is safe"<
+//Check the condition
+if(! (One_avail == One && Two_avail == Two && Three_avail == Three) )
+//Print that error is found
+cout<<"Error encountered in the procedure.Not all resources deallocated."<
+}
+}
+Create destructors of the above defined classes and free all acquired resources.
+//Destructor of the class
+~ Code_Banker ()
+{
+//De allocate the resources of class process and sequence
+delete []process;
+delete []sequence;
+}
+};
+Define the main function and end this function.
+//Define main function
+int main()
+{
+Code_Banker two;
+//End of main
+return 0;
+}
+
+
